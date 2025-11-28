@@ -1,16 +1,17 @@
 package br.com.challenge.weight_processor_service.service;
 
-import br.com.challenge.weight_processor_service.core.KeyAssignmentRegistry;
 import br.com.challenge.weight_processor_service.core.WorkerInfo;
 import br.com.challenge.weight_processor_service.dto.WeighingEventDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,19 +22,25 @@ import java.util.concurrent.ConcurrentHashMap;
 public class WeighingProcessorService {
 
     private static final int MIN_SAMPLES = 30;
-    private static final int WINDOW_SIZE = 20;
-    private static final BigDecimal MAX_VARIATION = new BigDecimal("0.0003");
+    private static final int WINDOW_SIZE = 30;
+    private static final BigDecimal MAX_VARIATION = new BigDecimal("0.003");
     private final Map<String, List<BigDecimal>> plateWeights = new ConcurrentHashMap<>();
+    private final Map<String, List<BigDecimal>> plateStableWeights = new ConcurrentHashMap<>();
+
+    private final Map<String, Long> lastEventTime = new ConcurrentHashMap<>();
+    private static final long INACTIVITY_TIMEOUT_MS = 5000;
     private static final MathContext MC = new MathContext(10, RoundingMode.HALF_UP);
 
     private final WorkerInfo workerInfo;
 
-    public boolean process(WeighingEventDto weighingEventDto) {
+    public void process(WeighingEventDto weighingEventDto) {
         String plate = weighingEventDto.getPlate();
         BigDecimal weight = weighingEventDto.getWeight();
 
+        lastEventTime.put(plate, System.currentTimeMillis());
+
         try {
-            log.info("Worker {} PROCESSANDO plate {} eventId {}",
+            log.info("Worker {} process plate {} eventId {}",
                     workerInfo.getWorkerId(), weighingEventDto.getPlate(), weighingEventDto.getId());
 
             plateWeights.computeIfAbsent(plate, p -> new ArrayList<>()).add(weight);
@@ -41,7 +48,9 @@ public class WeighingProcessorService {
             List<BigDecimal> list = plateWeights.get(plate);
 
             if (list.size() < MIN_SAMPLES) {
-                return false;
+                log.info("Worker {} Register plate {} eventId {}",
+                        workerInfo.getWorkerId(), weighingEventDto.getPlate(), weighingEventDto.getId());
+                return;
             }
 
             List<BigDecimal> window =
@@ -57,22 +66,47 @@ public class WeighingProcessorService {
             BigDecimal variation = diff.divide(avg, MC);
 
             if (variation.compareTo(MAX_VARIATION) <= 0) {
+                plateStableWeights.computeIfAbsent(plate, p -> new ArrayList<>())
+                        .add(avg);
 
-                log.info("\n=== PESO ESTÁVEL DETECTADO ===");
-                log.info("Placa: " + plate);
-                log.info("Peso final: " + avg);
-                log.info("Variação: " + variation + "\n");
+                log.info("\n=== STABLE WEIGHT DETECTED ===");
+                log.info("Plate: " + plate);
+                log.info("Final weight: " + avg);
+                log.info("AVG: " + variation + "\n");
 
                 plateWeights.remove(plate);
-                return true;
             }
-
             log.info("Worker {} Register plate {} eventId {}",
                     workerInfo.getWorkerId(), weighingEventDto.getPlate(), weighingEventDto.getId());
-            return false;
         } catch (Exception ex) {
-            log.error("Erro ao processar plate {} pelo worker {}", weighingEventDto.getPlate(), workerInfo.getWorkerId(), ex);
-            return false;
+            log.error("Error on process plate {} , worker {}", weighingEventDto.getPlate(), workerInfo.getWorkerId(), ex);
+        }
+    }
+
+    @Scheduled(fixedRate = 1000)
+    public void checkInactivePlates() {
+        long now = System.currentTimeMillis();
+        for (String plate : new ArrayList<>(lastEventTime.keySet())) {
+            long last = lastEventTime.get(plate);
+            if (now - last >= INACTIVITY_TIMEOUT_MS) {
+
+                log.info("=== AUTOMATIC TERMINATION DUE TO INACTIVITY ===");
+                log.info("Plate: {}", plate);
+
+                List<BigDecimal> stableList = plateStableWeights.getOrDefault(plate, Collections.emptyList());
+                if (!stableList.isEmpty()) {
+                    BigDecimal finalWeight = stableList.stream().max(BigDecimal::compareTo).get();
+                    log.info("Final weight detected: {}", finalWeight);
+
+                    //TODO Create a logic to insert the weight
+                } else {
+                    log.warn("No stable weight found for the plate. {}", plate);
+                }
+
+                plateWeights.remove(plate);
+                plateStableWeights.remove(plate);
+                lastEventTime.remove(plate);
+            }
         }
     }
 }

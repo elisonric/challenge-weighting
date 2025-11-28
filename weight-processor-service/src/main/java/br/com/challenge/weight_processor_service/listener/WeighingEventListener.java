@@ -11,8 +11,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
-import java.time.Duration;
-
 @Component
 public class WeighingEventListener {
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -39,7 +37,7 @@ public class WeighingEventListener {
             groupId = "weight-workers",
             containerFactory = "kafkaListenerContainerFactory"
     )
-    public void listen(ConsumerRecord<String, String> record) {
+    public void listen(ConsumerRecord<String, String> record,  Acknowledgment ack) {
         try {
             WeighingEventDto event = objectMapper.readValue(record.value(), WeighingEventDto.class);
 
@@ -47,11 +45,9 @@ public class WeighingEventListener {
                 return;
             }
 
-            boolean finished = weighingProcessorService.process(event);
+            weighingProcessorService.process(event);
 
-            if (finished) {
-                plateAssignmentFilter.release(event.getPlate());
-            }
+            ack.acknowledge();
 
         } catch (Exception e) {
             e.printStackTrace();
