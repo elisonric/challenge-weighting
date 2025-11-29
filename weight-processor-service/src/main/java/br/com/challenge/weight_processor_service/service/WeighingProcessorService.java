@@ -2,6 +2,8 @@ package br.com.challenge.weight_processor_service.service;
 
 import br.com.challenge.weight_processor_service.core.WorkerInfo;
 import br.com.challenge.weight_processor_service.dto.WeighingEventDto;
+import br.com.challenge.weight_processor_service.dto.WeighingOutputEventDto;
+import br.com.challenge.weight_processor_service.producer.WeighingProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,16 +28,19 @@ public class WeighingProcessorService {
     private static final BigDecimal MAX_VARIATION = new BigDecimal("0.003");
     private final Map<String, List<BigDecimal>> plateWeights = new ConcurrentHashMap<>();
     private final Map<String, List<BigDecimal>> plateStableWeights = new ConcurrentHashMap<>();
-
+    private final Map<String, String> plateScaleId = new ConcurrentHashMap<>();
     private final Map<String, Long> lastEventTime = new ConcurrentHashMap<>();
     private static final long INACTIVITY_TIMEOUT_MS = 5000;
     private static final MathContext MC = new MathContext(10, RoundingMode.HALF_UP);
-
     private final WorkerInfo workerInfo;
+    private final WeighingProducer weighingProducer;
+
 
     public void process(WeighingEventDto weighingEventDto) {
         String plate = weighingEventDto.getPlate();
         BigDecimal weight = weighingEventDto.getWeight();
+
+        plateScaleId.put(plate, weighingEventDto.getId());
 
         lastEventTime.put(plate, System.currentTimeMillis());
 
@@ -98,7 +103,14 @@ public class WeighingProcessorService {
                     BigDecimal finalWeight = stableList.stream().max(BigDecimal::compareTo).get();
                     log.info("Final weight detected: {}", finalWeight);
 
-                    //TODO Create a logic to insert the weight
+                    String scaleId = plateScaleId.get(plate);
+                    WeighingOutputEventDto dto = new WeighingOutputEventDto(
+                            plate,
+                            finalWeight,
+                            scaleId
+                    );
+
+                    weighingProducer.sendStableWeight(dto);
                 } else {
                     log.warn("No stable weight found for the plate. {}", plate);
                 }

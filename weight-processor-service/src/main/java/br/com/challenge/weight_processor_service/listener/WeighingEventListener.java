@@ -6,11 +6,13 @@ import br.com.challenge.weight_processor_service.core.WorkerInfo;
 import br.com.challenge.weight_processor_service.dto.WeighingEventDto;
 import br.com.challenge.weight_processor_service.service.WeighingProcessorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class WeighingEventListener {
     private final ObjectMapper objectMapper = new ObjectMapper();

@@ -1,0 +1,1638 @@
+{
+	"info": {
+		"_postman_id": "weighing-management-api-2025",
+		"name": "Weighing Management API",
+		"description": "Collection for Weighing Management Service API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8081/api",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register User (Admin only)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"newuser\",\n    \"email\": \"newuser@example.com\",\n    \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/register",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Branches",
+			"item": [
+				{
+					"name": "Create Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Filial Centro\",\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"address\": \"Rua Principal, 123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/branches",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"branches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Branches",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/branches",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"branches"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Branch by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/branches/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"branches",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Filial Centro Atualizada\",\n    \"city\": \"São Paulo\",\n    \"state\": \"SP\",\n    \"address\": \"Rua Principal, 456\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/branches/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"branches",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/branches/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"branches",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trucks",
+			"item": [
+				{
+					"name": "Create Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plate\": \"ABC-1234\",\n    \"model\": \"Scania R450\",\n    \"tareWeight\": 8500.00,\n    \"branchId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trucks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Trucks",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trucks",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Truck by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trucks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Truck by Plate",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trucks/plate/ABC-1234",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks",
+								"plate",
+								"ABC-1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"plate\": \"ABC-1234\",\n    \"model\": \"Scania R500\",\n    \"tareWeight\": 9000.00,\n    \"branchId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/trucks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/trucks/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"trucks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Grain Types",
+			"item": [
+				{
+					"name": "Create Grain Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Soja\",\n    \"description\": \"Soja tipo grão\",\n    \"purchasePricePerTon\": 150.50\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/grain-types",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"grain-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Grain Types",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/grain-types",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"grain-types"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Grain Type by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/grain-types/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"grain-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Grain Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Soja Premium\",\n    \"description\": \"Soja tipo grão premium\",\n    \"purchasePricePerTon\": 175.00\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/grain-types/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"grain-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Grain Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/grain-types/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"grain-types",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Scales",
+			"item": [
+				{
+					"name": "Create Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\": \"SCALE-001\",\n    \"location\": \"Entrada Principal\",\n    \"branchId\": 1,\n    \"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scales",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Scales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scale by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scale by Code",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales/code/SCALE-001",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"code",
+								"SCALE-001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scales by Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales/branch/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"branch",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Active Scales",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales/active",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"code\": \"SCALE-001\",\n    \"location\": \"Entrada Secundária\",\n    \"branchId\": 1,\n    \"active\": true\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/scales/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Scale",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transport Transactions",
+			"item": [
+				{
+					"name": "Create Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"truckId\": 1,\n    \"grainTypeId\": 1,\n    \"branchId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions by Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/truck/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"truck",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions by Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/branch/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"branch",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get In Progress Transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/in-progress",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"in-progress"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transactions by Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/status/IN_PROGRESS",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"status",
+								"IN_PROGRESS"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Complete Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1/complete",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1",
+								"complete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cancel Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1/cancel",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/transactions/1",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"transactions",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "Get Weighings Report",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/weighings?branchId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"weighings"
+							],
+							"query": [
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID"
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns detailed weighing records with optional filters for branch, truck, grain type and date period"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Costs Report - Group by Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/costs?groupBy=branch&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"costs"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "branch",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns cost analysis grouped by branch with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Costs Report - Group by Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/costs?groupBy=truck&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"costs"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "truck",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns cost analysis grouped by truck with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Costs Report - Group by Grain Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/costs?groupBy=grainType&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"costs"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "grainType",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns cost analysis grouped by grain type with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profits Report - Group by Branch",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/profits?groupBy=branch&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"profits"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "branch",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns profit analysis grouped by branch with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profits Report - Group by Truck",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/profits?groupBy=truck&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"profits"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "truck",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns profit analysis grouped by truck with optional filters"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profits Report - Group by Grain Type",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/reports/profits?groupBy=grainType&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"reports",
+								"profits"
+							],
+							"query": [
+								{
+									"key": "groupBy",
+									"value": "grainType",
+									"description": "REQUIRED: branch, truck, or grainType"
+								},
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Optional filter by branch ID",
+									"disabled": true
+								},
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Optional filter by truck ID",
+									"disabled": true
+								},
+								{
+									"key": "grainTypeId",
+									"value": "1",
+									"description": "Optional filter by grain type ID",
+									"disabled": true
+								},
+								{
+									"key": "startDate",
+									"value": "2025-01-01T00:00:00",
+									"description": "Optional start date filter"
+								},
+								{
+									"key": "endDate",
+									"value": "2025-12-31T23:59:59",
+									"description": "Optional end date filter"
+								}
+							]
+						},
+						"description": "Returns profit analysis grouped by grain type with optional filters"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
