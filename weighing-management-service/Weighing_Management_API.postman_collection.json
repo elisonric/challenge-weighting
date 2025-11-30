@@ -2,13 +2,13 @@
 	"info": {
 		"_postman_id": "weighing-management-api-2025",
 		"name": "Weighing Management API",
-		"description": "Collection for Weighing Management Service API endpoints - Updated with consolidated search endpoints",
+		"description": "Collection for Weighing Management Service API endpoints - Consolidated search endpoints with disabled parameters",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:8082/api",
+			"value": "http://localhost:8081/api",
 			"type": "string"
 		},
 		{
@@ -141,35 +141,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Branches (All)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/branches",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"branches"
-							]
-						},
-						"description": "Returns all branches when no parameters are provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Branches (By ID)",
+					"name": "Search Branches",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -195,11 +167,12 @@
 								{
 									"key": "id",
 									"value": "1",
-									"description": "Branch ID to search"
+									"description": "Branch ID to search",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Search branch by ID using query parameter"
+						"description": "Search branches with optional filters. Enable parameters as needed."
 					},
 					"response": []
 				},
@@ -310,7 +283,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Trucks (All)",
+					"name": "Search Trucks",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -325,35 +298,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/trucks",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"trucks"
-							]
-						},
-						"description": "Returns all trucks when no parameters are provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Trucks (By ID)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/trucks?id=1",
+							"raw": "{{baseUrl}}/trucks?id=1&plate=ABC-1234",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -364,46 +309,18 @@
 								{
 									"key": "id",
 									"value": "1",
-									"description": "Truck ID to search"
-								}
-							]
-						},
-						"description": "Search truck by ID using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Trucks (By Plate)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/trucks?plate=ABC-1234",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"trucks"
-							],
-							"query": [
+									"description": "Truck ID to search",
+									"disabled": true
+								},
 								{
 									"key": "plate",
 									"value": "ABC-1234",
-									"description": "Truck license plate to search"
+									"description": "Truck license plate to search",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Search truck by license plate using query parameter"
+						"description": "Search trucks with optional filters. Enable parameters as needed."
 					},
 					"response": []
 				},
@@ -514,35 +431,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Grain Types (All)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/grain-types",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"grain-types"
-							]
-						},
-						"description": "Returns all grain types when no parameters are provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Grain Types (By ID)",
+					"name": "Search Grain Types",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -568,11 +457,12 @@
 								{
 									"key": "id",
 									"value": "1",
-									"description": "Grain type ID to search"
+									"description": "Grain type ID to search",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Search grain type by ID using query parameter"
+						"description": "Search grain types with optional filters. Enable parameters as needed."
 					},
 					"response": []
 				},
@@ -683,7 +573,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Scales (All)",
+					"name": "Search Scales",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -698,35 +588,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/scales",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scales"
-							]
-						},
-						"description": "Returns all scales when no parameters are provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Scales (By ID)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/scales?id=1",
+							"raw": "{{baseUrl}}/scales?id=1&code=SCALE-001&branchId=1&activeOnly=true",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -737,156 +599,30 @@
 								{
 									"key": "id",
 									"value": "1",
-									"description": "Scale ID to search"
-								}
-							]
-						},
-						"description": "Search scale by ID using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Scales (By Code)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/scales?code=SCALE-001",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scales"
-							],
-							"query": [
+									"description": "Scale ID to search",
+									"disabled": true
+								},
 								{
 									"key": "code",
 									"value": "SCALE-001",
-									"description": "Scale code to search"
-								}
-							]
-						},
-						"description": "Search scale by code using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Scales (By Branch)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/scales?branchId=1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scales"
-							],
-							"query": [
+									"description": "Scale code to search",
+									"disabled": true
+								},
 								{
 									"key": "branchId",
 									"value": "1",
-									"description": "Branch ID to filter scales"
-								}
-							]
-						},
-						"description": "Search scales by branch using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Scales (Active Only)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/scales?activeOnly=true",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scales"
-							],
-							"query": [
-								{
-									"key": "activeOnly",
-									"value": "true",
-									"description": "Filter only active scales"
-								}
-							]
-						},
-						"description": "Search only active scales using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Scales (Combined Filters)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/scales?branchId=1&activeOnly=true",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"scales"
-							],
-							"query": [
-								{
-									"key": "branchId",
-									"value": "1",
-									"description": "Branch ID to filter scales"
+									"description": "Branch ID to filter scales",
+									"disabled": true
 								},
 								{
 									"key": "activeOnly",
 									"value": "true",
-									"description": "Filter only active scales"
+									"description": "Filter only active scales",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Search active scales from a specific branch using combined query parameters"
+						"description": "Search scales with optional filters. Enable parameters as needed. Can combine branchId + activeOnly for active scales in a specific branch."
 					},
 					"response": []
 				},
@@ -997,7 +733,7 @@
 					"response": []
 				},
 				{
-					"name": "Search Transactions (All)",
+					"name": "Search Transactions",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1012,35 +748,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"transactions"
-							]
-						},
-						"description": "Returns all transactions when no parameters are provided"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Transactions (By ID)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/transactions?id=1",
+							"raw": "{{baseUrl}}/transactions?id=1&truckId=1&branchId=1&status=IN_PROGRESS",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1051,156 +759,30 @@
 								{
 									"key": "id",
 									"value": "1",
-									"description": "Transaction ID to search"
-								}
-							]
-						},
-						"description": "Search transaction by ID using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Transactions (By Truck)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/transactions?truckId=1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"transactions"
-							],
-							"query": [
+									"description": "Transaction ID to search",
+									"disabled": true
+								},
 								{
 									"key": "truckId",
 									"value": "1",
-									"description": "Truck ID to filter transactions"
-								}
-							]
-						},
-						"description": "Search transactions by truck using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Transactions (By Branch)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/transactions?branchId=1",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"transactions"
-							],
-							"query": [
+									"description": "Truck ID to filter transactions",
+									"disabled": true
+								},
 								{
 									"key": "branchId",
 									"value": "1",
-									"description": "Branch ID to filter transactions"
-								}
-							]
-						},
-						"description": "Search transactions by branch using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Transactions (By Status)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/transactions?status=IN_PROGRESS",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"transactions"
-							],
-							"query": [
-								{
-									"key": "status",
-									"value": "IN_PROGRESS",
-									"description": "Status to filter transactions (IN_PROGRESS, COMPLETED, CANCELLED)"
-								}
-							]
-						},
-						"description": "Search transactions by status using query parameter"
-					},
-					"response": []
-				},
-				{
-					"name": "Search Transactions (Combined Filters)",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/transactions?truckId=1&status=IN_PROGRESS",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"transactions"
-							],
-							"query": [
-								{
-									"key": "truckId",
-									"value": "1",
-									"description": "Truck ID to filter transactions"
+									"description": "Branch ID to filter transactions",
+									"disabled": true
 								},
 								{
 									"key": "status",
 									"value": "IN_PROGRESS",
-									"description": "Status to filter transactions"
+									"description": "Status to filter transactions (IN_PROGRESS, COMPLETED, CANCELLED)",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Search transactions with multiple filters using combined query parameters"
+						"description": "Search transactions with optional filters. Enable parameters as needed. Can combine filters like truckId + status."
 					},
 					"response": []
 				},
@@ -1311,7 +893,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/reports/weighings?branchId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"raw": "{{baseUrl}}/reports/weighings?branchId=1&truckId=1&grainTypeId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1323,7 +905,8 @@
 								{
 									"key": "branchId",
 									"value": "1",
-									"description": "Optional filter by branch ID"
+									"description": "Optional filter by branch ID",
+									"disabled": true
 								},
 								{
 									"key": "truckId",
@@ -1340,12 +923,14 @@
 								{
 									"key": "startDate",
 									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
+									"description": "Optional start date filter",
+									"disabled": true
 								},
 								{
 									"key": "endDate",
 									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
+									"description": "Optional end date filter",
+									"disabled": true
 								}
 							]
 						},
@@ -1354,7 +939,7 @@
 					"response": []
 				},
 				{
-					"name": "Get Costs Report - Group by Branch",
+					"name": "Get Costs Report",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1369,7 +954,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/reports/costs?groupBy=branch&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"raw": "{{baseUrl}}/reports/costs?groupBy=branch&branchId=1&truckId=1&grainTypeId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1404,21 +989,23 @@
 								{
 									"key": "startDate",
 									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
+									"description": "Optional start date filter",
+									"disabled": true
 								},
 								{
 									"key": "endDate",
 									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
+									"description": "Optional end date filter",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Returns cost analysis grouped by branch with optional filters"
+						"description": "Returns cost analysis grouped by branch, truck, or grainType. Change groupBy parameter value as needed."
 					},
 					"response": []
 				},
 				{
-					"name": "Get Costs Report - Group by Truck",
+					"name": "Get Profits Report",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1433,135 +1020,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/reports/costs?groupBy=truck&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"reports",
-								"costs"
-							],
-							"query": [
-								{
-									"key": "groupBy",
-									"value": "truck",
-									"description": "REQUIRED: branch, truck, or grainType"
-								},
-								{
-									"key": "branchId",
-									"value": "1",
-									"description": "Optional filter by branch ID",
-									"disabled": true
-								},
-								{
-									"key": "truckId",
-									"value": "1",
-									"description": "Optional filter by truck ID",
-									"disabled": true
-								},
-								{
-									"key": "grainTypeId",
-									"value": "1",
-									"description": "Optional filter by grain type ID",
-									"disabled": true
-								},
-								{
-									"key": "startDate",
-									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
-								},
-								{
-									"key": "endDate",
-									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
-								}
-							]
-						},
-						"description": "Returns cost analysis grouped by truck with optional filters"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Costs Report - Group by Grain Type",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/reports/costs?groupBy=grainType&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"reports",
-								"costs"
-							],
-							"query": [
-								{
-									"key": "groupBy",
-									"value": "grainType",
-									"description": "REQUIRED: branch, truck, or grainType"
-								},
-								{
-									"key": "branchId",
-									"value": "1",
-									"description": "Optional filter by branch ID",
-									"disabled": true
-								},
-								{
-									"key": "truckId",
-									"value": "1",
-									"description": "Optional filter by truck ID",
-									"disabled": true
-								},
-								{
-									"key": "grainTypeId",
-									"value": "1",
-									"description": "Optional filter by grain type ID",
-									"disabled": true
-								},
-								{
-									"key": "startDate",
-									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
-								},
-								{
-									"key": "endDate",
-									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
-								}
-							]
-						},
-						"description": "Returns cost analysis grouped by grain type with optional filters"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Profits Report - Group by Branch",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/reports/profits?groupBy=branch&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
+							"raw": "{{baseUrl}}/reports/profits?groupBy=branch&branchId=1&truckId=1&grainTypeId=1&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1596,144 +1055,18 @@
 								{
 									"key": "startDate",
 									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
+									"description": "Optional start date filter",
+									"disabled": true
 								},
 								{
 									"key": "endDate",
 									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
+									"description": "Optional end date filter",
+									"disabled": true
 								}
 							]
 						},
-						"description": "Returns profit analysis grouped by branch with optional filters"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Profits Report - Group by Truck",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/reports/profits?groupBy=truck&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"reports",
-								"profits"
-							],
-							"query": [
-								{
-									"key": "groupBy",
-									"value": "truck",
-									"description": "REQUIRED: branch, truck, or grainType"
-								},
-								{
-									"key": "branchId",
-									"value": "1",
-									"description": "Optional filter by branch ID",
-									"disabled": true
-								},
-								{
-									"key": "truckId",
-									"value": "1",
-									"description": "Optional filter by truck ID",
-									"disabled": true
-								},
-								{
-									"key": "grainTypeId",
-									"value": "1",
-									"description": "Optional filter by grain type ID",
-									"disabled": true
-								},
-								{
-									"key": "startDate",
-									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
-								},
-								{
-									"key": "endDate",
-									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
-								}
-							]
-						},
-						"description": "Returns profit analysis grouped by truck with optional filters"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Profits Report - Group by Grain Type",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{baseUrl}}/reports/profits?groupBy=grainType&startDate=2025-01-01T00:00:00&endDate=2025-12-31T23:59:59",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"reports",
-								"profits"
-							],
-							"query": [
-								{
-									"key": "groupBy",
-									"value": "grainType",
-									"description": "REQUIRED: branch, truck, or grainType"
-								},
-								{
-									"key": "branchId",
-									"value": "1",
-									"description": "Optional filter by branch ID",
-									"disabled": true
-								},
-								{
-									"key": "truckId",
-									"value": "1",
-									"description": "Optional filter by truck ID",
-									"disabled": true
-								},
-								{
-									"key": "grainTypeId",
-									"value": "1",
-									"description": "Optional filter by grain type ID",
-									"disabled": true
-								},
-								{
-									"key": "startDate",
-									"value": "2025-01-01T00:00:00",
-									"description": "Optional start date filter"
-								},
-								{
-									"key": "endDate",
-									"value": "2025-12-31T23:59:59",
-									"description": "Optional end date filter"
-								}
-							]
-						},
-						"description": "Returns profit analysis grouped by grain type with optional filters"
+						"description": "Returns profit analysis grouped by branch, truck, or grainType. Change groupBy parameter value as needed."
 					},
 					"response": []
 				}
