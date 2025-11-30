@@ -2,13 +2,13 @@
 	"info": {
 		"_postman_id": "weighing-management-api-2025",
 		"name": "Weighing Management API",
-		"description": "Collection for Weighing Management Service API endpoints",
+		"description": "Collection for Weighing Management Service API endpoints - Updated with consolidated search endpoints",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:8081/api",
+			"value": "http://localhost:8082/api",
 			"type": "string"
 		},
 		{
@@ -141,7 +141,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Branches",
+					"name": "Search Branches (All)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -163,12 +163,13 @@
 							"path": [
 								"branches"
 							]
-						}
+						},
+						"description": "Returns all branches when no parameters are provided"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Branch by ID",
+					"name": "Search Branches (By ID)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -183,15 +184,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/branches/1",
+							"raw": "{{baseUrl}}/branches?id=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"branches",
-								"1"
+								"branches"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Branch ID to search"
+								}
 							]
-						}
+						},
+						"description": "Search branch by ID using query parameter"
 					},
 					"response": []
 				},
@@ -302,7 +310,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Trucks",
+					"name": "Search Trucks (All)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -324,12 +332,13 @@
 							"path": [
 								"trucks"
 							]
-						}
+						},
+						"description": "Returns all trucks when no parameters are provided"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Truck by ID",
+					"name": "Search Trucks (By ID)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -344,20 +353,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/trucks/1",
+							"raw": "{{baseUrl}}/trucks?id=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"trucks",
-								"1"
+								"trucks"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Truck ID to search"
+								}
 							]
-						}
+						},
+						"description": "Search truck by ID using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Truck by Plate",
+					"name": "Search Trucks (By Plate)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -372,16 +388,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/trucks/plate/ABC-1234",
+							"raw": "{{baseUrl}}/trucks?plate=ABC-1234",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"trucks",
-								"plate",
-								"ABC-1234"
+								"trucks"
+							],
+							"query": [
+								{
+									"key": "plate",
+									"value": "ABC-1234",
+									"description": "Truck license plate to search"
+								}
 							]
-						}
+						},
+						"description": "Search truck by license plate using query parameter"
 					},
 					"response": []
 				},
@@ -492,7 +514,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Grain Types",
+					"name": "Search Grain Types (All)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -514,12 +536,13 @@
 							"path": [
 								"grain-types"
 							]
-						}
+						},
+						"description": "Returns all grain types when no parameters are provided"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Grain Type by ID",
+					"name": "Search Grain Types (By ID)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -534,15 +557,22 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/grain-types/1",
+							"raw": "{{baseUrl}}/grain-types?id=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"grain-types",
-								"1"
+								"grain-types"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Grain type ID to search"
+								}
 							]
-						}
+						},
+						"description": "Search grain type by ID using query parameter"
 					},
 					"response": []
 				},
@@ -653,7 +683,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Scales",
+					"name": "Search Scales (All)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -675,12 +705,13 @@
 							"path": [
 								"scales"
 							]
-						}
+						},
+						"description": "Returns all scales when no parameters are provided"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Scale by ID",
+					"name": "Search Scales (By ID)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -695,20 +726,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/scales/1",
+							"raw": "{{baseUrl}}/scales?id=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scales",
-								"1"
+								"scales"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Scale ID to search"
+								}
 							]
-						}
+						},
+						"description": "Search scale by ID using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Scale by Code",
+					"name": "Search Scales (By Code)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -723,21 +761,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/scales/code/SCALE-001",
+							"raw": "{{baseUrl}}/scales?code=SCALE-001",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scales",
-								"code",
-								"SCALE-001"
+								"scales"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "SCALE-001",
+									"description": "Scale code to search"
+								}
 							]
-						}
+						},
+						"description": "Search scale by code using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Scales by Branch",
+					"name": "Search Scales (By Branch)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -752,21 +796,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/scales/branch/1",
+							"raw": "{{baseUrl}}/scales?branchId=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scales",
-								"branch",
-								"1"
+								"scales"
+							],
+							"query": [
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Branch ID to filter scales"
+								}
 							]
-						}
+						},
+						"description": "Search scales by branch using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Active Scales",
+					"name": "Search Scales (Active Only)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -781,15 +831,62 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/scales/active",
+							"raw": "{{baseUrl}}/scales?activeOnly=true",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"scales",
-								"active"
+								"scales"
+							],
+							"query": [
+								{
+									"key": "activeOnly",
+									"value": "true",
+									"description": "Filter only active scales"
+								}
 							]
-						}
+						},
+						"description": "Search only active scales using query parameter"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Scales (Combined Filters)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/scales?branchId=1&activeOnly=true",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"scales"
+							],
+							"query": [
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Branch ID to filter scales"
+								},
+								{
+									"key": "activeOnly",
+									"value": "true",
+									"description": "Filter only active scales"
+								}
+							]
+						},
+						"description": "Search active scales from a specific branch using combined query parameters"
 					},
 					"response": []
 				},
@@ -900,7 +997,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Transactions",
+					"name": "Search Transactions (All)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -922,12 +1019,13 @@
 							"path": [
 								"transactions"
 							]
-						}
+						},
+						"description": "Returns all transactions when no parameters are provided"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Transaction by ID",
+					"name": "Search Transactions (By ID)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -942,20 +1040,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions/1",
+							"raw": "{{baseUrl}}/transactions?id=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"transactions",
-								"1"
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "Transaction ID to search"
+								}
 							]
-						}
+						},
+						"description": "Search transaction by ID using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Transactions by Truck",
+					"name": "Search Transactions (By Truck)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -970,21 +1075,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions/truck/1",
+							"raw": "{{baseUrl}}/transactions?truckId=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"transactions",
-								"truck",
-								"1"
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Truck ID to filter transactions"
+								}
 							]
-						}
+						},
+						"description": "Search transactions by truck using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Transactions by Branch",
+					"name": "Search Transactions (By Branch)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -999,21 +1110,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions/branch/1",
+							"raw": "{{baseUrl}}/transactions?branchId=1",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"transactions",
-								"branch",
-								"1"
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "branchId",
+									"value": "1",
+									"description": "Branch ID to filter transactions"
+								}
 							]
-						}
+						},
+						"description": "Search transactions by branch using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get In Progress Transactions",
+					"name": "Search Transactions (By Status)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1028,20 +1145,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions/in-progress",
+							"raw": "{{baseUrl}}/transactions?status=IN_PROGRESS",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"transactions",
-								"in-progress"
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "IN_PROGRESS",
+									"description": "Status to filter transactions (IN_PROGRESS, COMPLETED, CANCELLED)"
+								}
 							]
-						}
+						},
+						"description": "Search transactions by status using query parameter"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Transactions by Status",
+					"name": "Search Transactions (Combined Filters)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -1056,16 +1180,27 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/transactions/status/IN_PROGRESS",
+							"raw": "{{baseUrl}}/transactions?truckId=1&status=IN_PROGRESS",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"transactions",
-								"status",
-								"IN_PROGRESS"
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "truckId",
+									"value": "1",
+									"description": "Truck ID to filter transactions"
+								},
+								{
+									"key": "status",
+									"value": "IN_PROGRESS",
+									"description": "Status to filter transactions"
+								}
 							]
-						}
+						},
+						"description": "Search transactions with multiple filters using combined query parameters"
 					},
 					"response": []
 				},
