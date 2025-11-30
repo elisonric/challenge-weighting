@@ -68,6 +68,24 @@ public class TruckService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<TruckResponseDto> search(Long id, String plate) {
+        log.info("Searching trucks with filters - id: {}, plate: {}", id, plate);
+
+        // If ID is provided, return single result as list
+        if (id != null) {
+            return List.of(getById(id));
+        }
+
+        // If plate is provided, return single result as list
+        if (plate != null && !plate.isBlank()) {
+            return List.of(getByPlate(plate));
+        }
+
+        // No filters, return all
+        return getAll();
+    }
+
     @Transactional
     public TruckResponseDto update(Long id, TruckRequestDto requestDto) {
         log.info("Updating truck with ID: {}", id);

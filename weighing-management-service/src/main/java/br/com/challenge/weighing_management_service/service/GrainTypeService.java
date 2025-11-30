@@ -52,6 +52,19 @@ public class GrainTypeService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<GrainTypeResponseDto> search(Long id) {
+        log.info("Searching grain types with filter - id: {}", id);
+
+        // If ID is provided, return single result as list
+        if (id != null) {
+            return List.of(getById(id));
+        }
+
+        // No filters, return all
+        return getAll();
+    }
+
     @Transactional
     public GrainTypeResponseDto update(Long id, GrainTypeRequestDto requestDto) {
         log.info("Updating grain type with ID: {}", id);

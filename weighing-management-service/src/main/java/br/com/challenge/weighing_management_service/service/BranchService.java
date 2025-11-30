@@ -52,6 +52,19 @@ public class BranchService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<BranchResponseDto> search(Long id) {
+        log.info("Searching branches with filter - id: {}", id);
+
+        // If ID is provided, return single result as list
+        if (id != null) {
+            return List.of(getById(id));
+        }
+
+        // No filters, return all
+        return getAll();
+    }
+
     @Transactional
     public BranchResponseDto update(Long id, BranchRequestDto requestDto) {
         log.info("Updating branch with ID: {}", id);

@@ -25,6 +25,7 @@ services:
     container_name: challenge-kafka
     ports:
       - "9092:9092"
+      - "9093:9093"
     environment:
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
@@ -45,7 +46,7 @@ services:
     networks:
       - challenge-network
     healthcheck:
-      test: [ "CMD-SHELL", "kafka-broker-api-versions.sh --bootstrap-server localhost:9092" ]
+      test: [ "CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server kafka:9093" ]
       interval: 10s
       timeout: 10s
       retries: 5
@@ -72,8 +73,9 @@ services:
     container_name: weighing-ingest-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
+      KAFKA_HOST: kafka:9093
     ports:
-      - "8081:8080"
+      - "8080:8080"
     networks:
       - challenge-network
     restart: unless-stopped
@@ -90,10 +92,13 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
+      KAFKA_HOST: kafka:9093
     ports:
-      - "8082:8080"
+      - "8081:8081"
     depends_on:
       postgres:
+        condition: service_healthy
+      kafka:
         condition: service_healthy
     networks:
       - challenge-network
@@ -106,15 +111,12 @@ services:
     container_name: weight-processor-service
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/weighing_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: postgres
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
+      KAFKA_HOST: kafka:9093
+
     ports:
-      - "8083:8080"
+      - "8082:8082"
     depends_on:
-      postgres:
+      kafka:
         condition: service_healthy
     networks:
       - challenge-network

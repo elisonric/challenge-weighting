@@ -103,7 +103,7 @@ INSERT INTO users (username, email, password, role, enabled)
 VALUES (
            'admin',
            'admin@local.com',
-           '$2a$10$L.UgJx/qrl.864AFi4jq0.Ly4p9CcsGCc4fgBuBcGi6rsh9rvZwFy',
+           '$2a$10$MGWHMyXgUxglSzsAXHkljuDNM3dBfnOe/vnepE3CUUp26u8g50l8q',
            'ADMIN',
            true
        );
@@ -148,3 +148,11 @@ VALUES (
            1,
            'IN_PROGRESS'
        );
+
+SELECT setval('users_id_seq', (SELECT MAX(id) FROM users));
+SELECT setval('branches_id_seq', (SELECT MAX(id) FROM branches));
+SELECT setval('grain_types_id_seq', (SELECT MAX(id) FROM grain_types));
+SELECT setval('trucks_id_seq', (SELECT MAX(id) FROM trucks));
+SELECT setval('scales_id_seq', (SELECT MAX(id) FROM scales));
+SELECT setval('transport_transactions_id_seq', (SELECT MAX(id) FROM transport_transactions));
+SELECT setval('weighings_id_seq', (SELECT MAX(id) FROM weighings));

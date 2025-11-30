@@ -31,45 +31,19 @@ public class TransportTransactionController {
                 .body(ApiResponse.success("Transaction created successfully", responseDto));
     }
 
-    @Operation(summary = "Get transaction by ID", description = "Returns a single transaction by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<TransportTransactionResponseDto>> getById(@PathVariable Long id) {
-        TransportTransactionResponseDto responseDto = transactionService.getById(id);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get all transactions", description = "Returns a list of all transactions")
+    @Operation(
+        summary = "Search transactions",
+        description = "Search transport transactions with optional filters. If no parameters are provided, returns all transactions. " +
+                "Parameters: id (transaction ID), truckId (filter by truck), branchId (filter by branch), status (filter by status)"
+    )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> getAll() {
-        List<TransportTransactionResponseDto> transactions = transactionService.getAll();
-        return ResponseEntity.ok(ApiResponse.success(transactions));
-    }
-
-    @Operation(summary = "Get transactions by truck", description = "Returns transactions by truck ID")
-    @GetMapping("/truck/{truckId}")
-    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> getByTruckId(@PathVariable Long truckId) {
-        List<TransportTransactionResponseDto> transactions = transactionService.getByTruckId(truckId);
-        return ResponseEntity.ok(ApiResponse.success(transactions));
-    }
-
-    @Operation(summary = "Get transactions by branch", description = "Returns transactions by branch ID")
-    @GetMapping("/branch/{branchId}")
-    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> getByBranchId(@PathVariable Long branchId) {
-        List<TransportTransactionResponseDto> transactions = transactionService.getByBranchId(branchId);
-        return ResponseEntity.ok(ApiResponse.success(transactions));
-    }
-
-    @Operation(summary = "Get in-progress transactions", description = "Returns all in-progress transactions")
-    @GetMapping("/in-progress")
-    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> getInProgressTransactions() {
-        List<TransportTransactionResponseDto> transactions = transactionService.getInProgressTransactions();
-        return ResponseEntity.ok(ApiResponse.success(transactions));
-    }
-
-    @Operation(summary = "Get transactions by status", description = "Returns transactions by status")
-    @GetMapping("/status/{status}")
-    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> getByStatus(@PathVariable String status) {
-        List<TransportTransactionResponseDto> transactions = transactionService.getByStatus(status);
+    public ResponseEntity<ApiResponse<List<TransportTransactionResponseDto>>> search(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) Long truckId,
+            @RequestParam(required = false) Long branchId,
+            @RequestParam(required = false) String status
+    ) {
+        List<TransportTransactionResponseDto> transactions = transactionService.search(id, truckId, branchId, status);
         return ResponseEntity.ok(ApiResponse.success(transactions));
     }
 

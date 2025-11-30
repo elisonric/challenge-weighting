@@ -68,6 +68,41 @@ public class ScaleService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<ScaleResponseDto> search(Long id, String code, Long branchId, Boolean activeOnly) {
+        // If ID is provided, return single result as list
+        if (id != null) {
+            return List.of(getById(id));
+        }
+
+        // If code is provided, return single result as list
+        if (code != null) {
+            return List.of(getByCode(code));
+        }
+
+        // If branchId is provided
+        if (branchId != null) {
+            List<Scale> scales = scaleRepository.findByBranchId(branchId);
+            // If activeOnly is also true, filter active scales
+            if (Boolean.TRUE.equals(activeOnly)) {
+                scales = scales.stream()
+                        .filter(Scale::getActive)
+                        .collect(Collectors.toList());
+            }
+            return scales.stream()
+                    .map(scaleMapper::toResponseDto)
+                    .collect(Collectors.toList());
+        }
+
+        // If only activeOnly is provided
+        if (Boolean.TRUE.equals(activeOnly)) {
+            return getActiveScales();
+        }
+
+        // No filters, return all
+        return getAll();
+    }
+
     @Transactional
     public ScaleResponseDto update(Long id, ScaleRequestDto requestDto) {
         Scale scale = scaleRepository.findById(id)

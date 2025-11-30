@@ -31,38 +31,19 @@ public class ScaleController {
                 .body(ApiResponse.success("Scale created successfully", responseDto));
     }
 
-    @Operation(summary = "Get scale by ID", description = "Returns a single scale by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<ScaleResponseDto>> getById(@PathVariable Long id) {
-        ScaleResponseDto responseDto = scaleService.getById(id);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get scale by code", description = "Returns a single scale by code")
-    @GetMapping("/code/{code}")
-    public ResponseEntity<ApiResponse<ScaleResponseDto>> getByCode(@PathVariable String code) {
-        ScaleResponseDto responseDto = scaleService.getByCode(code);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get all scales", description = "Returns a list of all scales")
+    @Operation(
+        summary = "Search scales",
+        description = "Search scales with optional filters. If no parameters are provided, returns all scales. " +
+                "Parameters: id (scale ID), code (scale code), branchId (filter by branch), activeOnly (filter active scales only)"
+    )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ScaleResponseDto>>> getAll() {
-        List<ScaleResponseDto> scales = scaleService.getAll();
-        return ResponseEntity.ok(ApiResponse.success(scales));
-    }
-
-    @Operation(summary = "Get scales by branch", description = "Returns scales by branch ID")
-    @GetMapping("/branch/{branchId}")
-    public ResponseEntity<ApiResponse<List<ScaleResponseDto>>> getByBranchId(@PathVariable Long branchId) {
-        List<ScaleResponseDto> scales = scaleService.getByBranchId(branchId);
-        return ResponseEntity.ok(ApiResponse.success(scales));
-    }
-
-    @Operation(summary = "Get active scales", description = "Returns only active scales")
-    @GetMapping("/active")
-    public ResponseEntity<ApiResponse<List<ScaleResponseDto>>> getActiveScales() {
-        List<ScaleResponseDto> scales = scaleService.getActiveScales();
+    public ResponseEntity<ApiResponse<List<ScaleResponseDto>>> search(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String code,
+            @RequestParam(required = false) Long branchId,
+            @RequestParam(required = false) Boolean activeOnly
+    ) {
+        List<ScaleResponseDto> scales = scaleService.search(id, code, branchId, activeOnly);
         return ResponseEntity.ok(ApiResponse.success(scales));
     }
 

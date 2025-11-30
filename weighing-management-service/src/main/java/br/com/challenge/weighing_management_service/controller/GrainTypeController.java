@@ -31,18 +31,16 @@ public class GrainTypeController {
                 .body(ApiResponse.success("Grain type created successfully", responseDto));
     }
 
-    @Operation(summary = "Get grain type by ID", description = "Returns a single grain type by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<GrainTypeResponseDto>> getById(
-            @Parameter(description = "Grain type ID") @PathVariable Long id) {
-        GrainTypeResponseDto responseDto = grainTypeService.getById(id);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get all grain types", description = "Returns a list of all grain types")
+    @Operation(
+        summary = "Search grain types",
+        description = "Search grain types with optional filters. If no parameters are provided, returns all grain types. " +
+                "Parameters: id (grain type ID)"
+    )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<GrainTypeResponseDto>>> getAll() {
-        List<GrainTypeResponseDto> grainTypes = grainTypeService.getAll();
+    public ResponseEntity<ApiResponse<List<GrainTypeResponseDto>>> search(
+            @Parameter(description = "Grain type ID") @RequestParam(required = false) Long id
+    ) {
+        List<GrainTypeResponseDto> grainTypes = grainTypeService.search(id);
         return ResponseEntity.ok(ApiResponse.success(grainTypes));
     }
 

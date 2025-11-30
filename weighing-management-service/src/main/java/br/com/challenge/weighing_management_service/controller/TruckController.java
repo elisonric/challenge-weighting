@@ -31,26 +31,17 @@ public class TruckController {
                 .body(ApiResponse.success("Truck created successfully", responseDto));
     }
 
-    @Operation(summary = "Get truck by ID", description = "Returns a single truck by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<TruckResponseDto>> getById(
-            @Parameter(description = "Truck ID") @PathVariable Long id) {
-        TruckResponseDto responseDto = truckService.getById(id);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get truck by plate", description = "Returns a single truck by license plate")
-    @GetMapping("/plate/{plate}")
-    public ResponseEntity<ApiResponse<TruckResponseDto>> getByPlate(
-            @Parameter(description = "Truck license plate") @PathVariable String plate) {
-        TruckResponseDto responseDto = truckService.getByPlate(plate);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get all trucks", description = "Returns a list of all trucks")
+    @Operation(
+        summary = "Search trucks",
+        description = "Search trucks with optional filters. If no parameters are provided, returns all trucks. " +
+                "Parameters: id (truck ID), plate (license plate)"
+    )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<TruckResponseDto>>> getAll() {
-        List<TruckResponseDto> trucks = truckService.getAll();
+    public ResponseEntity<ApiResponse<List<TruckResponseDto>>> search(
+            @Parameter(description = "Truck ID") @RequestParam(required = false) Long id,
+            @Parameter(description = "License plate") @RequestParam(required = false) String plate
+    ) {
+        List<TruckResponseDto> trucks = truckService.search(id, plate);
         return ResponseEntity.ok(ApiResponse.success(trucks));
     }
 

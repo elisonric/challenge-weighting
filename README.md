@@ -84,8 +84,8 @@ Serviço responsável pelo **gerenciamento** de dados de negócio e relatórios.
 - **Flyway** (migração de banco de dados)
 
 ### Infraestrutura
-- **Docker & Docker Compose**
-- **Kafka UI** (interface de gerenciamento do Kafka)
+- **Docker**
+- **Kafka**
 
 ### Documentação
 - **Swagger/OpenAPI 3.0**
@@ -93,65 +93,26 @@ Serviço responsável pelo **gerenciamento** de dados de negócio e relatórios.
 
 ## Requisitos
 
-- Docker & Docker Compose
+- Docker
 - Java 21 (para desenvolvimento local)
 - Maven 3.8+
 
 ## Como Executar
 
-### 1. Subir a infraestrutura (PostgreSQL, Kafka e Kafka UI)
+### Subir a infraestrutura (PostgreSQL, Kafka e Kafka UI)
 
-```bash
-docker-compose up -d postgres kafka kafka-ui
-```
-
-Aguarde os serviços ficarem saudáveis (verificar logs):
-```bash
-docker-compose logs -f postgres kafka
-```
-
-### 2. Executar os serviços
-
-**Opção A: Via Docker Compose (Todos os serviços)**
 ```bash
 docker-compose up -d
 ```
 
-**Opção B: Desenvolvimento local**
+### Acessar as interfaces
 
-Terminal 1 - Weighing Management Service:
-```bash
-cd weighing-management-service
-mvn spring-boot:run
-```
-
-Terminal 2 - Weighing Ingest Service:
-```bash
-cd weighing-ingest-service
-mvn spring-boot:run
-```
-
-Terminal 3 - Weight Processor Service:
-```bash
-cd weight-processor-service
-mvn spring-boot:run
-```
-
-### 3. Acessar as interfaces
-
-- **Weighing Management API**: http://localhost:8082/api
-- **Weighing Management Swagger**: http://localhost:8082/api/swagger-ui.html
-- **Weighing Ingest API**: http://localhost:8081/weighing
+- **Weighing Management API**: http://localhost:8081/api
+- **Weighing Management Swagger**: http://localhost:8081/api/swagger-ui.html
+- **Weighing Ingest API**: http://localhost:8080/weighing
 - **Weight Processor**: Serviço backend (sem interface web)
 - **Kafka UI**: http://localhost:8090
-- **PostgreSQL**: localhost:5432 (user: postgres, password: postgres, db: weighing_db)
-
-## Tópicos Kafka
-
-| Tópico | Produtor | Consumidor | Descrição |
-|--------|----------|------------|-----------|
-| `weighing-events` | Weighing Ingest | Weight Processor | Eventos de pesagem brutos das balanças |
-| `stables-weight` | Weight Processor | Weighing Management | Eventos de peso estável processados |
+- **PostgreSQL**: localhost:5432
 
 ## Fluxo de Dados
 
@@ -175,120 +136,6 @@ mvn spring-boot:run
    - Processamento idempotente
    - Cálculo de custos e armazenamento
 
-## Postman Collection
-
-Uma collection completa do Postman está disponível em:
-```
-weighing-management-service/Weighing_Management_API.postman_collection.json
-```
-
-**Como usar:**
-1. Importe a collection no Postman
-2. Configure a variável `baseUrl` (padrão: http://localhost:8082/api)
-3. Execute o endpoint de Login para obter o token JWT
-4. O token será salvo automaticamente para os demais requests
-
-## Estrutura do Projeto
-
-```
-Challenge/
-├── weighing-ingest-service/          # Serviço de ingestão
-│   ├── src/
-│   ├── Dockerfile
-│   └── README.md
-├── weight-processor-service/          # Serviço de processamento
-│   ├── src/
-│   ├── Dockerfile
-│   └── README.md
-├── weighing-management-service/       # Serviço de gerenciamento
-│   ├── src/
-│   ├── Dockerfile
-│   ├── Weighing_Management_API.postman_collection.json
-│   └── README.md
-├── docker-compose.yml                 # Orquestração dos serviços
-└── README.md                         # Este arquivo
-```
-
-## Banco de Dados
-
-O sistema utiliza PostgreSQL com as seguintes entidades principais:
-
-- **Branch**: Filiais
-- **Truck**: Caminhões
-- **GrainType**: Tipos de grãos
-- **Scale**: Balanças
-- **TransportTransaction**: Transações de transporte
-- **Weighing**: Pesagens processadas
-- **User**: Usuários do sistema
-
-O schema é gerenciado automaticamente pelo Flyway com migrations versionadas.
-
-## Segurança
-
-### Weighing Ingest Service
-- Autenticação via API Key (header `X-API-KEY`)
-- Configurável via variável de ambiente `API_KEY`
-
-### Weighing Management Service
-- Autenticação JWT
-- Roles: ADMIN e USER
-- Endpoints protegidos por permissões
-- Token expira em 24 horas
-
-## Escalabilidade
-
-O sistema foi projetado para escalar horizontalmente:
-
-1. **Weighing Ingest Service**: Stateless, pode ter múltiplas instâncias
-2. **Weight Processor Service**: Usa sistema de atribuição de placas para distribuir carga entre workers
-3. **Weighing Management Service**: Pode escalar com balanceamento de carga
-
-## Monitoramento
-
-- **Kafka UI**: Monitoramento de tópicos, mensagens e consumers
-- **Logs**: Todos os serviços geram logs estruturados
-- **Health Checks**: Endpoints de health check em todos os serviços
-
-## Desenvolvimento
-
-Para mais detalhes sobre cada serviço, consulte os READMEs individuais:
-
-- [Weighing Ingest Service README](weighing-ingest-service/README.md)
-- [Weight Processor Service README](weight-processor-service/README.md)
-- [Weighing Management Service README](weighing-management-service/README.md)
-
-## Troubleshooting
-
-### Kafka não conecta
-```bash
-# Verificar se o Kafka está rodando
-docker-compose logs kafka
-
-# Recriar o container do Kafka
-docker-compose down kafka
-docker-compose up -d kafka
-```
-
-### PostgreSQL não conecta
-```bash
-# Verificar logs do PostgreSQL
-docker-compose logs postgres
-
-# Verificar se a porta 5432 está livre
-lsof -i :5432
-```
-
-### Serviço não consome mensagens do Kafka
-```bash
-# Verificar consumer groups no Kafka UI
-# Acessar: http://localhost:8090
-
-# Resetar offset do consumer (CUIDADO em produção)
-docker exec -it challenge-kafka kafka-consumer-groups.sh \
-  --bootstrap-server localhost:9092 \
-  --group <group-id> \
-  --reset-offsets --to-earliest --execute --topic <topic-name>
-```
 
 ## Licença
 

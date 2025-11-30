@@ -31,17 +31,16 @@ public class BranchController {
                 .body(ApiResponse.success("Branch created successfully", responseDto));
     }
 
-    @Operation(summary = "Get branch by ID", description = "Returns a single branch by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<BranchResponseDto>> getById(@PathVariable Long id) {
-        BranchResponseDto responseDto = branchService.getById(id);
-        return ResponseEntity.ok(ApiResponse.success(responseDto));
-    }
-
-    @Operation(summary = "Get all branches", description = "Returns a list of all branches")
+    @Operation(
+        summary = "Search branches",
+        description = "Search branches with optional filters. If no parameters are provided, returns all branches. " +
+                "Parameters: id (branch ID)"
+    )
     @GetMapping
-    public ResponseEntity<ApiResponse<List<BranchResponseDto>>> getAll() {
-        List<BranchResponseDto> branches = branchService.getAll();
+    public ResponseEntity<ApiResponse<List<BranchResponseDto>>> search(
+            @RequestParam(required = false) Long id
+    ) {
+        List<BranchResponseDto> branches = branchService.search(id);
         return ResponseEntity.ok(ApiResponse.success(branches));
     }
 

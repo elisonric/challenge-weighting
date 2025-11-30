@@ -91,6 +91,41 @@ public class TransportTransactionService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<TransportTransactionResponseDto> search(Long id, Long truckId, Long branchId, String status) {
+        // If ID is provided, return single result as list
+        if (id != null) {
+            return List.of(getById(id));
+        }
+
+        // Start with all transactions
+        List<TransportTransaction> transactions = transactionRepository.findAll();
+
+        // Apply filters cumulatively
+        if (truckId != null) {
+            transactions = transactions.stream()
+                    .filter(t -> t.getTruck().getId().equals(truckId))
+                    .collect(Collectors.toList());
+        }
+
+        if (branchId != null) {
+            transactions = transactions.stream()
+                    .filter(t -> t.getBranch().getId().equals(branchId))
+                    .collect(Collectors.toList());
+        }
+
+        if (status != null && !status.isBlank()) {
+            TransactionStatus transactionStatus = TransactionStatus.valueOf(status.toUpperCase());
+            transactions = transactions.stream()
+                    .filter(t -> t.getStatus() == transactionStatus)
+                    .collect(Collectors.toList());
+        }
+
+        return transactions.stream()
+                .map(transactionMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public TransportTransactionResponseDto complete(Long id) {
         TransportTransaction transaction = transactionRepository.findById(id)
