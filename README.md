@@ -136,6 +136,15 @@ docker-compose up -d
    - Processamento idempotente
    - Cálculo de custos e armazenamento
 
+## Diagramas C4
+
+1. **Diagrama de contexto**
+
+![Context](./challenge-weighting%20C4-Context.png)
+
+2. **Diagrama de container**
+
+![Context](./challenge-weighting%20C4-Container.png)
 
 ## Licença
 
