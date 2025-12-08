@@ -93,13 +93,14 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "true"
       KAFKA_HOST: kafka:9093
+      SPRING_APPLICATION_NAME: weighing-management-service
+      OTEL_ENDPOINT: http://otel:4318
     ports:
       - "8081:8081"
     depends_on:
-      postgres:
-        condition: service_healthy
-      kafka:
-        condition: service_healthy
+      - postgres
+      - kafka
+      - otel
     networks:
       - challenge-network
     restart: unless-stopped
@@ -121,6 +122,20 @@ services:
     networks:
       - challenge-network
     restart: unless-stopped
+
+  otel:
+    image: grafana/otel-lgtm:0.7.1
+    container_name: otel
+    ports:
+      - "3000:3000"
+      - "4317:4317"
+      - "9090:9090"
+      - "4318:4318"
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    networks:
+      - challenge-network
 
 networks:
   challenge-network:
